@@ -22,5 +22,75 @@ int main() {
     }
 
     printf("\n");
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *front = NULL, *rear = NULL;
+
+// Enqueue
+void enqueue(int value) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (rear == NULL) {
+        front = rear = newNode;
+    } else {
+        rear->next = newNode;
+        rear = newNode;
+    }
+}
+
+// Reverse Queue
+void reverse() {
+    struct Node *prev = NULL, *curr = front, *next;
+
+    rear = front;   // Old front becomes new rear
+
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    front = prev;   // New front
+}
+
+// Display Queue
+void display() {
+    struct Node *temp = front;
+
+    if (front == NULL) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Queue: ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    enqueue(40);
+
+    printf("Before Reverse:\n");
+    display();
+
+    reverse();
+
+    printf("After Reverse:\n");
+    display();
+
     return 0;
 }
